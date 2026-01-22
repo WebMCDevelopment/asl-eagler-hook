@@ -11,7 +11,7 @@ import xyz.jpenilla.runvelocity.task.RunVelocity
 
 
 val PLUGIN_NAME = "ASLEaglerHook"
-val PLUGIN_IDEN = "asl-eagler-hook"
+val PLUGIN_IDEN = "asleaglerhook"
 val PLUGIN_DOMN = "xyz.webmc.$PLUGIN_IDEN"
 val PLUGIN_DESC = "An EaglerXServer addon to display the AdvancedServerList MOTD."
 val PLUGIN_VERS = "1.0.0"
