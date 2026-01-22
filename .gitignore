@@ -1,0 +1,11 @@
+/.gradle/
+/.vscode/
+/gradle/**
+/build/
+/bin/
+/run/
+/gradlew
+/gradlew.bat
+!/gradle/wrapper/
+!/gradle/wrapper/*.properties
+!/gradle/libs/
