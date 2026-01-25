@@ -1,7 +1,7 @@
 package xyz.webmc.asleaglerhook.velocity;
 
 import xyz.webmc.asleaglerhook.base.ASLEaglerHook;
-import xyz.webmc.asleaglerhook.base.EventPriority;
+import xyz.webmc.asleaglerhook.base.EaglerEventPriority;
 import xyz.webmc.asleaglerhook.base.IASLEaglerHookPlugin;
 import xyz.webmc.asleaglerhook.base.asl.EaglerPingEventWrapper;
 import xyz.webmc.asleaglerhook.velocity.asl.VelocityPlayerImpl;
@@ -28,6 +28,7 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.util.Favicon;
+import net.lax1dude.eaglercraft.backend.server.api.velocity.EaglerXServerAPI;
 import net.lax1dude.eaglercraft.backend.server.api.velocity.event.EaglercraftMOTDEvent;
 
 @SuppressWarnings({ "unchecked" })
@@ -43,9 +44,10 @@ public final class ASLEaglerHookVelocity implements IASLEaglerHookPlugin<Favicon
   @Subscribe
   public final void init(ProxyInitializeEvent event) {
     this.plugin = (PluginCore<Favicon>) this.proxy.getPluginManager().getPlugin("advancedserverlist").get().getInstance().get();
+    ASLEaglerHook.init(EaglerXServerAPI.instance());
   }
 
-  @Subscribe(priority = EventPriority.EAGLER_MOTD_EVENT)
+  @Subscribe(priority = EaglerEventPriority.EAGLER_MOTD_EVENT)
   public final void onEaglerMOTD(final EaglercraftMOTDEvent event) {
     final ProfileEntry entry = ASLEaglerHook.handleEvent(new EaglerPingEventWrapper(this, event.getMOTDConnection()));
     this.proxy.getEventManager().fire(new PostServerListSetEvent(entry));

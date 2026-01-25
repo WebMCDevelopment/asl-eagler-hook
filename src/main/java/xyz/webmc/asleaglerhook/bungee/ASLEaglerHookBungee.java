@@ -1,7 +1,7 @@
 package xyz.webmc.asleaglerhook.bungee;
 
 import xyz.webmc.asleaglerhook.base.ASLEaglerHook;
-import xyz.webmc.asleaglerhook.base.EventPriority;
+import xyz.webmc.asleaglerhook.base.EaglerEventPriority;
 import xyz.webmc.asleaglerhook.base.IASLEaglerHookPlugin;
 import xyz.webmc.asleaglerhook.base.asl.EaglerPingEventWrapper;
 import xyz.webmc.asleaglerhook.bungee.asl.BungeePlayerImpl;
@@ -17,6 +17,7 @@ import ch.andre601.advancedserverlist.api.bungeecord.events.PreServerListSetEven
 import ch.andre601.advancedserverlist.core.compat.papi.PAPIUtil;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import net.lax1dude.eaglercraft.backend.server.api.bungee.EaglerXServerAPI;
 import net.lax1dude.eaglercraft.backend.server.api.bungee.event.EaglercraftMOTDEvent;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -33,9 +34,10 @@ public final class ASLEaglerHookBungee extends Plugin implements IASLEaglerHookP
   public final void onEnable() {
     this.getProxy().getPluginManager().registerListener(this, this);
     this.plugin = (PluginCore<Favicon>) this.getProxy().getPluginManager().getPlugin("AdvancedServerList");
+    ASLEaglerHook.init(EaglerXServerAPI.instance());
   }
 
-  @EventHandler(priority = EventPriority.EAGLER_MOTD_EVENT)
+  @EventHandler(priority = EaglerEventPriority.EAGLER_MOTD_EVENT)
   public final void onEaglerMOTD(final EaglercraftMOTDEvent event) {
     final ProfileEntry entry = ASLEaglerHook.handleEvent(new EaglerPingEventWrapper(this, event.getMOTDConnection()));
     this.getProxy().getPluginManager().callEvent(new PostServerListSetEvent(entry));

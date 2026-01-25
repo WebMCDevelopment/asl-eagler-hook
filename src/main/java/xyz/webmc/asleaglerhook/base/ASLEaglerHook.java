@@ -1,5 +1,6 @@
 package xyz.webmc.asleaglerhook.base;
 
+import xyz.webmc.asleaglerhook.base.asl.EaglerASLPlaceholder;
 import xyz.webmc.asleaglerhook.base.asl.EaglerPingEventWrapper;
 
 import java.awt.Graphics2D;
@@ -10,10 +11,18 @@ import java.util.Base64;
 
 import javax.imageio.ImageIO;
 
+import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.events.PingEventHandler;
+import net.lax1dude.eaglercraft.backend.server.api.IEaglerXServerAPI;
 
+@SuppressWarnings({ "rawtypes" })
 public final class ASLEaglerHook {
+  public static final void init(final IEaglerXServerAPI eaglerAPI) {
+    final AdvancedServerListAPI api = AdvancedServerListAPI.get();
+    api.addPlaceholderProvider(new EaglerASLPlaceholder(eaglerAPI));
+  }
+
   public static final ProfileEntry handleEvent(final EaglerPingEventWrapper wrapper) {
     return PingEventHandler.handleEvent(wrapper);
   }
