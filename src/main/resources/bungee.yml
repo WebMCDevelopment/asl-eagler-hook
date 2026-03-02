@@ -6,5 +6,4 @@ website: ${plugin_site}
 author: ${plugin_athr}
 contributors: ${plugin_ctbr}
 depends: ${plugin_depa}
-provides: ${plugin_prov}
 softdepend: ${plugin_sdpa}

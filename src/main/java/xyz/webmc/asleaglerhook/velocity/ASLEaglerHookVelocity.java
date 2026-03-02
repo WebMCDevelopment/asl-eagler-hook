@@ -40,10 +40,11 @@ public final class ASLEaglerHookVelocity implements IASLEaglerHookPlugin<Favicon
   public ASLEaglerHookVelocity(final ProxyServer proxy) {
     this.proxy = proxy;
   }
-    
+
   @Subscribe
   public final void init(ProxyInitializeEvent event) {
-    this.plugin = (PluginCore<Favicon>) this.proxy.getPluginManager().getPlugin("advancedserverlist").get().getInstance().get();
+    this.plugin = (PluginCore<Favicon>) this.proxy.getPluginManager().getPlugin("advancedserverlist").get()
+        .getInstance().get();
     ASLEaglerHook.init(EaglerXServerAPI.instance());
   }
 
@@ -106,7 +107,7 @@ public final class ASLEaglerHookVelocity implements IASLEaglerHookPlugin<Favicon
     final PreServerListSetEvent event = new VelocityPreServerListSetEvent(entry);
     try {
       this.proxy.getEventManager().fire(event).get();
-    } catch (InterruptedException | ExecutionException e) {
+    } catch (InterruptedException | ExecutionException ex) {
       return null;
     }
     return event;

@@ -5,11 +5,10 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import net.lax1dude.eaglercraft.backend.server.api.IEaglerXServerAPI;
 
-@SuppressWarnings({ "rawtypes" })
 public final class EaglerASLPlaceholder extends PlaceholderProvider {
-  private final IEaglerXServerAPI api;
+  private final IEaglerXServerAPI<?> api;
 
-  public EaglerASLPlaceholder(final IEaglerXServerAPI api) {
+  public EaglerASLPlaceholder(final IEaglerXServerAPI<?> api) {
     super("eagler");
     this.api = api;
   }

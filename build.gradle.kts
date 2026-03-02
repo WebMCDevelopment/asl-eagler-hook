@@ -1,11 +1,10 @@
 import groovy.lang.Closure
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.palantir.gradle.gitversion.VersionDetails
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.language.jvm.tasks.ProcessResources
 import xyz.jpenilla.runpaper.task.RunServer
-import xyz.jpenilla.runwaterfall.task.RunWaterfall
 import xyz.jpenilla.runvelocity.task.RunVelocity
+import xyz.jpenilla.runwaterfall.task.RunWaterfall
 
 
 
@@ -14,13 +13,12 @@ val PLUGIN_NAME = "ASLEaglerHook"
 val PLUGIN_IDEN = "asleaglerhook"
 val PLUGIN_DOMN = "xyz.webmc.$PLUGIN_IDEN"
 val PLUGIN_DESC = "An EaglerXServer addon to display the AdvancedServerList MOTD."
-val PLUGIN_VERS = "1.0.1"
+val PLUGIN_VERS = "1.0.2"
 val PLUGIN_SITE = "https://github.com/WebMCDevelopment/$PLUGIN_IDEN"
 val PLUGIN_DEPA = listOf("EaglercraftXServer", "AdvancedServerList")
 val PLUGIN_DEPB = listOf("eaglerxserver", "advancedserverlist")
 val PLUGIN_SDPA = listOf("PAPIProxyBridge", "Maintenance")
 val PLUGIN_SDPB = listOf("papiproxybridge", "maintenance")
-val PLUGIN_PROV = emptyList<String>()
 val PLUGIN_ATHR = listOf("Colbster937")
 val PLUGIN_CTBR = emptyList<String>()
 
@@ -30,7 +28,6 @@ val PLUGIN_CTBR = emptyList<String>()
 val PLUGIN_DEPA_J = getBungeeDeps(PLUGIN_DEPA)
 val PLUGIN_DEPB_J = getVelocityDeps(PLUGIN_DEPB, PLUGIN_SDPB)
 val PLUGIN_SDPA_J = getBungeeDeps(PLUGIN_SDPA)
-val PLUGIN_PROV_J = getBungeeDeps(PLUGIN_PROV)
 val PLUGIN_ATHR_J = getBungeeDeps(PLUGIN_ATHR)
 val PLUGIN_CTBR_J = getBungeeDeps(PLUGIN_CTBR)
 
@@ -43,13 +40,10 @@ val MTNCE_VER = "4.2.1"
 plugins {
   id("java")
   id("com.gradleup.shadow") version "9.3.1"
-  id("com.palantir.git-version") version "4.2.0"
+  id("com.palantir.git-version") version "4.3.0"
   id("xyz.jpenilla.run-velocity") version "3.0.2"
   id("xyz.jpenilla.run-waterfall") version "3.0.2"
 }
-
-@Suppress("UNCHECKED_CAST")
-val GIT_INFO = (extra["versionDetails"] as Closure<VersionDetails>)()
 
 repositories {
   mavenCentral()
@@ -63,7 +57,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+  compileOnly("com.velocitypowered:velocity-api:3.5.0-SNAPSHOT")
   compileOnly("net.md-5:bungeecord-api:1.21-R0.5-SNAPSHOT")
   compileOnly("net.lax1dude.eaglercraft.backend:api-velocity:1.0.0")
   compileOnly("net.lax1dude.eaglercraft.backend:api-bungee:1.0.0")
@@ -96,18 +90,15 @@ val BUILD_PROPS = mapOf(
   "plugin_depa" to PLUGIN_DEPA_J,
   "plugin_depb" to PLUGIN_DEPB_J,
   "plugin_sdpa" to PLUGIN_SDPA_J,
-  "plugin_prov" to PLUGIN_PROV_J,
   "plugin_athr" to PLUGIN_ATHR_J,
   "plugin_ctbr" to PLUGIN_CTBR_J,
-  "git_cm_hash" to GIT_INFO.gitHashFull,
 )
 
-tasks.withType<JavaCompile>().configureEach {
-  options.encoding = "UTF-8"
+tasks.named<JavaCompile>("compileJava") {
   options.release.set(21)
 }
 
-tasks.withType<ProcessResources>().configureEach {
+tasks.named<ProcessResources>("processResources") {
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   outputs.upToDateWhen { false }
   
@@ -117,25 +108,14 @@ tasks.withType<ProcessResources>().configureEach {
 		}
   }
 
-  doLast {
-    val file = destinationDir.resolve("build.properties")
-    file.parentFile.mkdirs()
-    file.writeText(
-      BUILD_PROPS.entries.joinToString("\n") { (k, v) ->
-        "$k = $v"
-      }
-    )
-  }
-
   inputs.files(tasks.named<JavaCompile>("compileJava").map { it.outputs.files })
 }
 
-tasks.withType<Jar>().configureEach {
+tasks.named<Jar>("jar") {
   enabled = false
 }
 
-tasks.withType<ShadowJar>().configureEach {
-  enabled = true
+tasks.named<ShadowJar>("shadowJar") {
   doFirst {
     delete(layout.buildDirectory.dir("libs"))
     mkdir(layout.buildDirectory.dir("libs"))
@@ -155,7 +135,18 @@ tasks.register("printVars") {
   }
 }
 
-tasks.withType<RunWaterfall>().configureEach {
+tasks.named<RunVelocity>("runVelocity") {
+  velocityVersion("3.5.0-SNAPSHOT")
+  runDirectory.set(layout.projectDirectory.dir("run/velocity"))
+  downloadPlugins {
+    github("lax1dude", "eaglerxserver", "v" + EAGXS_VER, "EaglerXServer.jar")
+    url("https://codeberg.org/Andre601/AdvancedServerList/releases/download/v$ASLPL_VER/AdvancedServerList-Velocity-$ASLPL_VER.jar")
+    github("WiIIiam278", "PAPIProxyBridge", PAPIP_VER, "PAPIProxyBridge-Velocity-" + PAPIP_VER + ".jar")
+    github("kennytv", "Maintenance", MTNCE_VER, "Maintenance-Velocity-" + MTNCE_VER + ".jar")
+  }
+}
+
+tasks.named<RunWaterfall>("runWaterfall") {
   waterfallVersion("1.21")
   runDirectory.set(layout.projectDirectory.dir("run/waterfall"))
   downloadPlugins {
@@ -163,17 +154,6 @@ tasks.withType<RunWaterfall>().configureEach {
     url("https://codeberg.org/Andre601/AdvancedServerList/releases/download/v$ASLPL_VER/AdvancedServerList-BungeeCord-$ASLPL_VER.jar")
     github("WiIIiam278", "PAPIProxyBridge", PAPIP_VER, "PAPIProxyBridge-Bungee-" + PAPIP_VER + ".jar")
     github("kennytv", "Maintenance", MTNCE_VER, "Maintenance-" + MTNCE_VER + ".jar")
-  }
-}
-
-tasks.withType<RunVelocity>().configureEach {
-  velocityVersion("3.4.0-SNAPSHOT")
-  runDirectory.set(layout.projectDirectory.dir("run/velocity"))
-  downloadPlugins {
-    github("lax1dude", "eaglerxserver", "v" + EAGXS_VER, "EaglerXServer.jar")
-    url("https://codeberg.org/Andre601/AdvancedServerList/releases/download/v$ASLPL_VER/AdvancedServerList-Velocity-$ASLPL_VER.jar")
-    github("WiIIiam278", "PAPIProxyBridge", PAPIP_VER, "PAPIProxyBridge-Velocity-" + PAPIP_VER + ".jar")
-    github("kennytv", "Maintenance", MTNCE_VER, "Maintenance-Velocity-" + MTNCE_VER + ".jar")
   }
 }
 

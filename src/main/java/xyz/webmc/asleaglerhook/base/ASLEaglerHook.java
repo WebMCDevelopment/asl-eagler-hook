@@ -16,9 +16,8 @@ import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import net.lax1dude.eaglercraft.backend.server.api.IEaglerXServerAPI;
 
-@SuppressWarnings({ "rawtypes" })
 public final class ASLEaglerHook {
-  public static final void init(final IEaglerXServerAPI eaglerAPI) {
+  public static final void init(final IEaglerXServerAPI<?> eaglerAPI) {
     final AdvancedServerListAPI api = AdvancedServerListAPI.get();
     api.addPlaceholderProvider(new EaglerASLPlaceholder(eaglerAPI));
   }
@@ -63,8 +62,8 @@ public final class ASLEaglerHook {
       }
 
       return ret;
-    } catch (final Exception e) {
-      throw new RuntimeException(e);
+    } catch (final Exception ex) {
+      throw new RuntimeException(ex);
     }
   }
 
@@ -74,7 +73,7 @@ public final class ASLEaglerHook {
       final Class<?> cls = Class.forName("eu.kennytv.maintenance.api.MaintenanceProvider", true, cl);
       final Object provider = cls.getMethod("get").invoke(null);
       return (boolean) provider.getClass().getMethod("isMaintenance").invoke(provider);
-    } catch (final Exception e) {
+    } catch (final Exception ex) {
       return false;
     }
   }

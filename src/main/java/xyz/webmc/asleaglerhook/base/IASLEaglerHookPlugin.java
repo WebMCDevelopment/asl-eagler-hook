@@ -8,19 +8,19 @@ import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 
 public interface IASLEaglerHookPlugin<F> {
-  public byte[] getFaviconBytes(final F favicon);
+  public abstract byte[] getFaviconBytes(final F favicon);
 
-  public Class<F> getFaviconClass();
+  public abstract Class<F> getFaviconClass();
 
-  public String parsePAPIPlaceholders(final String text, final GenericPlayer player);
+  public abstract String parsePAPIPlaceholders(final String text, final GenericPlayer player);
 
-  public PluginCore<F> getASL();
+  public abstract PluginCore<F> getASL();
 
-  public GenericPlayer createPlayer(final CachedPlayer player, final int protocol);
+  public abstract GenericPlayer createPlayer(final CachedPlayer player, final int protocol);
 
-  public GenericServer createServer(final int playersOnline, final int playersMax, final String host);
+  public abstract GenericServer createServer(final int playersOnline, final int playersMax, final String host);
 
-  public GenericServerListEvent callEvent(final ProfileEntry entry);
+  public abstract GenericServerListEvent callEvent(final ProfileEntry entry);
 
-  public boolean isMaintenancePluginLoaded();
+  public abstract boolean isMaintenancePluginLoaded();
 }

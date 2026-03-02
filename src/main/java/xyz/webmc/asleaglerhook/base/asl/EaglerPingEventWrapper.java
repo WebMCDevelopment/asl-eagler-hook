@@ -28,7 +28,7 @@ public final class EaglerPingEventWrapper implements GenericEventWrapper<Object,
   private final IMOTDConnection motd;
   private boolean changed = false;
 
-  public EaglerPingEventWrapper(final IASLEaglerHookPlugin plugin, final IMOTDConnection motd) {
+  public EaglerPingEventWrapper(final IASLEaglerHookPlugin<?> plugin, final IMOTDConnection motd) {
     this.plugin = plugin;
     this.motd = motd;
   }
@@ -66,7 +66,6 @@ public final class EaglerPingEventWrapper implements GenericEventWrapper<Object,
 
   @Override
   public final void playerCount(final String name) {
-
   }
 
   @Override
