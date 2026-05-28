@@ -1,0 +1,8 @@
+{
+  "id": "${plugin.iden}",
+  "name": "${plugin.name}",
+  "version": "${plugin.vers}",
+  "main": "${plugin.pckg}.velocity.${plugin.name}VelocityPlugin",
+  "authors": ["${plugin.athr}"],
+  "dependencies": ${plugin.deps.velocity}
+}

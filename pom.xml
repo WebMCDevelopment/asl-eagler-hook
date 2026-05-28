@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>xyz.webmc</groupId>
+  <artifactId>parent</artifactId>
+  <version>parent</version>
+  <packaging>pom</packaging>
+  <properties>
+    <plugin.name>ASLEaglerHook</plugin.name>
+    <plugin.iden>asleaglerhook</plugin.iden>
+    <plugin.vers>1.0.3</plugin.vers>
+    <plugin.pckg>${project.groupId}.${plugin.iden}</plugin.pckg>
+
+    <plugin.deps.velocity>[{"id":"advancedserverlist","optional":false},{"id":"maintenance","optional":true}]</plugin.deps.velocity>
+    <plugin.deps.bungee.hard>["AdvancedServerList"]</plugin.deps.bungee.hard>
+    <plugin.deps.bungee.soft>["Maintenance"]</plugin.deps.bungee.soft>
+
+    <plugin.athr>Colbster937</plugin.athr>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>21</maven.compiler.release>
+  </properties>
+  <modules>
+    <module>core</module>
+    <module>asl/core</module>
+  </modules>
+</project>

@@ -1,0 +1,6 @@
+name: ${plugin.name}
+version: ${plugin.vers}
+main: ${plugin.pckg}.bungee.${plugin.name}BungeePlugin
+author: ${plugin.athr}
+depends: ${plugin.deps.bungee.hard}
+softdepend: ${plugin.deps.bungee.soft}

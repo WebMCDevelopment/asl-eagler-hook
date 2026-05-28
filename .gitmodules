@@ -1,0 +1,3 @@
+[submodule "asl"]
+	path = asl
+	url = https://codeberg.org/Andre601/AdvancedServerList.git
