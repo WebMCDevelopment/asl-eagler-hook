@@ -32,8 +32,10 @@ jobs:
       - id: vars
         run: |
           echo "HASH=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          pushd core
           echo "VERS=$(mvn -Dexpression=project.version -B -q -DforceStdout help:evaluate)" >> "$GITHUB_OUTPUT"
           echo "AFCT=$(mvn -Dexpression=project.build.finalName -B -q -DforceStdout help:evaluate)" >> "$GITHUB_OUTPUT"
+          popd
 
       - id: ghck
         run: |
