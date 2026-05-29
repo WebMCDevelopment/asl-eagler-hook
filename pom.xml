@@ -16,8 +16,8 @@
 
     <plugin.athr>Colbster937</plugin.athr>
 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <modules>
     <module>core</module>
