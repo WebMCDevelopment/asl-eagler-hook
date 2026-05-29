@@ -10,8 +10,8 @@
     <plugin.vers>1.0.3</plugin.vers>
     <plugin.pckg>${project.groupId}.${plugin.iden}</plugin.pckg>
 
-    <plugin.deps.velocity>[{"id":"advancedserverlist","optional":false},{"id":"maintenance","optional":true}]</plugin.deps.velocity>
-    <plugin.deps.bungee.hard>["AdvancedServerList"]</plugin.deps.bungee.hard>
+    <plugin.deps.velocity>[{"id":"eaglerxserver","optional":false},{"id":"advancedserverlist","optional":false},{"id":"maintenance","optional":true}]</plugin.deps.velocity>
+    <plugin.deps.bungee.hard>["EaglercraftXServer","AdvancedServerList"]</plugin.deps.bungee.hard>
     <plugin.deps.bungee.soft>["Maintenance"]</plugin.deps.bungee.soft>
 
     <plugin.athr>Colbster937</plugin.athr>
